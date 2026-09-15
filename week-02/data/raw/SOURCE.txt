@@ -1,0 +1,5 @@
+Downloaded 2026-09-15. CRSP vintage: 202607.
+F-F_Research_Data_Factors.csv: SHA256 347bdcabb60863073a120111b40cb21b1a0682d6a82e919df057bdbea15e3a73
+F-F_Research_Data_Factors.zip: SHA256 b840dba55d319f4818fc7300e65c52eff5f64870c8d495fa58ff5d4cd749f5eb
+Portfolios_Formed_on_OP.csv: SHA256 4b7beae09ea50c5dc760b6f771940ebc1eec2a4391bcda5eed2a669b30f76517
+Portfolios_Formed_on_OP.zip: SHA256 43af7d9041520121b58ea85971aac084b29d16362840d67667d54b82eecef54b

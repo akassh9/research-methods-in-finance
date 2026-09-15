@@ -1,0 +1,10 @@
+*.pdf binary
+*.png binary
+*.zip binary
+*.dta binary
+*.gph binary
+# Preserve the original source bytes and checksums across platforms.
+**/data/raw/*.csv -text
+*.do text eol=lf
+*.py text eol=lf
+*.md text eol=lf
