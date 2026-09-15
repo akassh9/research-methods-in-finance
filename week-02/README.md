@@ -48,16 +48,17 @@ Stata regenerates the data, table, PNG/GPH graph and local `output/assignment1.l
 
 ## Rebuild the report (optional)
 
-The report builder uses Python 3, ReportLab and pypdfium2. From the repository root:
+The report is typeset in LaTeX. Its editable source is [report/report.tex](report/report.tex). Install Python 3 and a full TeX distribution (MacTeX or TeX Live) with `latexmk`, `newtx`, `pgfplots`, and `listings`. No third-party Python packages are required.
+
+From the repository root:
 
 ```sh
-python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install -r week-02/scripts/requirements.txt
-python week-02/scripts/build_report.py
+python3 week-02/scripts/build_report.py
 ```
 
-Run Stata first if analysis code changed. The builder verifies all ten means, standard deviations, t-statistics and p-values against the raw data before writing the PDF and rendering preview pages under ignored `week-02/tmp/pdfs/`. Review the discussion when changing data or methods: its prose is specific to this sample.
+Run Stata first if analysis code changed. The builder independently verifies all 40 statistics, refreshes the LaTeX table and vector-chart data, then compiles the report. Intermediate TeX files go under ignored `week-02/tmp/latex/`. The final PDF remains in `output/pdf/assignment1_report.pdf`.
+
+Review the PDF after edits. The discussion is specific to this sample and must be revised if data or methods change. The appendix includes the current `assignment1.do` directly, avoiding a separately maintained copy.
 
 ## Main result
 

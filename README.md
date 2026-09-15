@@ -38,7 +38,8 @@ research-methods-in-finance/
     ├── data/raw/           # Frozen source CSVs, ZIPs and checksums
     ├── output/             # Analysis data, summary statistics and chart
     │   └── pdf/            # Completed report with code appendix
-    └── scripts/            # Optional PDF rebuild and validation
+    ├── report/             # Editable LaTeX report and generated figure/table data
+    └── scripts/            # PDF rebuild and numerical validation
 ```
 
 ## Team workflow

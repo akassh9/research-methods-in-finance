@@ -1,0 +1,114 @@
+\documentclass[11pt,letterpaper]{article}
+\usepackage[margin=0.85in,top=0.75in,bottom=0.75in,headheight=14pt]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{newtxtext,newtxmath,microtype}
+\usepackage{booktabs,tabularx,amsmath,xcolor}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepackage{listings,fancyhdr,titlesec}
+\usepackage[hidelinks]{hyperref}
+\definecolor{ink}{HTML}{202A35}
+\definecolor{muted}{HTML}{616973}
+\definecolor{rulegray}{HTML}{C5CBD1}
+\definecolor{navy}{HTML}{334E68}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+\linespread{1.04}
+\titleformat{\section}{\normalsize\bfseries\color{ink}}{\thesection}{0.65em}{}
+\titlespacing*{\section}{0pt}{13pt}{5pt}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\footnotesize\color{muted}RESEARCH METHODS IN FINANCE}
+\fancyhead[R]{\footnotesize\color{muted}WEEK 02}
+\fancyfoot[L]{\footnotesize\color{muted}Olin Business School\enspace /\enspace Fall 2026}
+\fancyfoot[R]{\footnotesize\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\lstset{basicstyle=\ttfamily\fontsize{8}{10}\selectfont,breaklines=true,columns=fullflexible,keepspaces=true,showstringspaces=false,numbers=left,numberstyle=\tiny\color{muted},numbersep=10pt,xleftmargin=18pt,frame=none,aboveskip=8pt,belowskip=0pt}
+\hypersetup{pdftitle={Operating Profitability and Portfolio Excess Returns},pdfauthor={},pdfsubject={Week 2 | Stata Group Assignment 1}}
+\begin{document}
+{\small\color{muted}STATA GROUP ASSIGNMENT 1}\par
+\vspace{3pt}
+{\fontsize{24}{28}\selectfont\bfseries\color{ink}Operating Profitability\\and Portfolio Excess Returns}\par
+\vspace{4pt}
+{\small Value-weighted deciles\enspace\textbar\enspace July 1963--July 2026\enspace\textbar\enspace 757 months}
+\vspace{7pt}\hrule height 0.5pt\vspace{5pt}
+
+\section{Data and portfolio construction}
+We use Kenneth French's ten value-weighted portfolios formed on operating profitability (OP), ordered from the lowest-profitability decile (1) to the highest (10). Portfolios are formed each June using NYSE breakpoints. OP is prior-year revenue less cost of goods sold, interest expense, and selling, general and administrative expenses, divided by book equity.
+
+Monthly returns are matched by calendar month to the risk-free return (RF) in the Fama/French three-factor file. The common sample contains 757 complete observations per decile. The files were downloaded on September 15, 2026 and use the July 2026 CRSP vintage; only the monthly value-weighted return block is selected.
+
+\section{Excess returns and inference}
+For portfolio $d$, monthly excess return is $x_{d,t}=R_{d,t}-R_{f,t}$, measured in percentage points. We test $H_0:\mu_d=0$ against $H_1:\mu_d\ne0$ using
+\begin{equation*}
+ t_d=\frac{\bar{x}_d}{s_d/\sqrt{N}},\qquad
+ s_d^2=\frac{1}{N-1}\sum_{t=1}^{N}(x_{d,t}-\bar{x}_d)^2,\qquad
+ p_d=2\Pr\!\left(T_{756}\geq |t_d|\right).
+\end{equation*}
+\vspace{-6pt}
+\section{Results}
+{\small\bfseries Table 1.\enspace Monthly excess returns by operating-profitability decile}\par
+\vspace{2pt}
+\begingroup
+\small\renewcommand{\arraystretch}{1.27}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrr@{}}
+\toprule
+OP decile & Mean (\%) & Std. dev. (\%) & $t$-statistic & $p$-value\\
+\midrule
+\csname @@input\endcsname results.tex 
+\bottomrule
+\end{tabular*}
+\endgroup
+\vspace{4pt}
+{\footnotesize\color{muted}Notes: $N=757$ for every decile. Means are arithmetic monthly averages; standard deviations use $N-1$. Tests are two-sided with 756 degrees of freedom. P-values are unadjusted. Source: Kenneth French Data Library.}\par
+\vspace{4pt}
+\textbf{Main finding.} Nine of ten deciles have positive mean excess returns significant at 5\%. The lowest-profitability decile does not reject the zero-mean null ($p=0.0672$).
+
+\newpage
+\section{Interpretation}
+Mean excess returns range from 0.4394\% to 0.7272\% per month. Deciles 2--10 reject the zero-mean null at both 5\% and 1\%. Decile 1 is significant at 10\%, but not at 5\% ($t=1.8327$).
+
+Higher-profitability portfolios generally have larger mean excess returns, although the pattern is not monotonic. Decile 8 has the highest mean (0.7272\%); decile 10 averages 0.6910\%. The lowest-profitability portfolio is also the most volatile: its monthly standard deviation is 6.5959\%, compared with 4.6210\% for decile 10.
+
+The difference between the decile-10 and decile-1 sample means is approximately 0.252 percentage points per month. Individual portfolio tests do not establish the statistical significance of this difference. Standard errors do not adjust for serial correlation, and p-values are not corrected for multiple testing. These results do not establish risk-adjusted abnormal performance or a causal effect of profitability.
+
+\section{Monthly return variation}
+{\small\bfseries Figure 1.\enspace Highest-profitability decile: monthly excess return}\par
+{\footnotesize\color{muted}Value-weighted OP decile 10\enspace /\enspace July 1963--July 2026}
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[width=\textwidth,height=2.8in,scale only axis=false,
+ xmin=1963.5,xmax=2026.583,ymin=-30,ymax=20,
+ xtick={1970,1980,1990,2000,2010,2020},xticklabel style={/pgf/number format/1000 sep=},
+ ytick={-30,-20,-10,0,10,20},
+ ylabel={Excess return (\% per month)},
+ tick label style={font=\footnotesize,color=muted},label style={font=\footnotesize,color=muted},
+ axis lines=left,axis line style={rulegray},tick style={rulegray},
+ ymajorgrids=true,grid style={rulegray!45,line width=0.25pt},
+ clip=true]
+\addplot[muted,line width=0.4pt] coordinates {(1963.5,0) (2026.583,0)};
+\addplot[navy,line width=0.45pt,no marks] table[x=year,y=excess]{decile10.dat};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\vspace{-8pt}
+{\footnotesize\color{muted}Source: Kenneth French Data Library; portfolio return minus RF. The figure uses the same monthly observations as the Stata analysis.}\par
+Despite its positive sample mean, decile 10 experiences substantial month-to-month fluctuations. Its largest negative excess return occurs in October 1987 ($-25.17\%$). The figure shows monthly returns, not cumulative investment performance.
+
+\section*{Sources and reproducibility}
+{\footnotesize
+\href{https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html}{Kenneth French Data Library}; \href{https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/Data_Library/det_port_form_op.html}{operating-profitability portfolio definitions}. RF uses Ibbotson one-month Treasury bill data through May 2024 and the ICE BofA US 1-Month Treasury Bill Index thereafter. The library's current CIZ-based research return series is used.
+
+The \texttt{week-02} folder includes frozen source files, checksums, code and outputs. From the repository root in Stata, run \texttt{do run-week-02.do}. The appendix reproduces the analysis do-file. The report's editable LaTeX source is in \texttt{week-02/report/}.}
+
+\newpage
+{\small\color{muted}APPENDIX A}\par
+{\Large\bfseries Stata code}\par
+{\small\color{muted}Data preparation and monthly excess returns}
+\lstinputlisting[firstline=1,lastline=60]{../assignment1.do}
+\newpage
+{\small\color{muted}APPENDIX A\enspace /\enspace CONTINUED}\par
+{\Large\bfseries Stata code}\par
+{\small\color{muted}Hypothesis tests and Stata figure export}
+\lstinputlisting[firstline=61,firstnumber=61]{../assignment1.do}
+\end{document}
