@@ -9,8 +9,9 @@ Shared coursework repository for the class. Each week has its own code, data, do
 | Week | Topic | Report | Code |
 | --- | --- | --- | --- |
 | [Week 2](week-02/README.md) | Stata Group Assignment 1: operating-profitability deciles | [PDF](week-02/output/pdf/assignment1_report.pdf) | [Stata do-file](week-02/assignment1.do) |
+| [Week 3](week-03/README.md) | Stata Group Assignment 2: CAPM and beta tests | [PDF](week-03/output/pdf/assignment2_report.pdf) | [Stata do-file](week-03/assignment2.do) |
 
-Add later work in `week-03/`, `week-04/`, and so on. Week numbers describe the class schedule; assignment numbers retain the instructor's numbering.
+Add later work in `week-04/`, `week-05/`, and so on. Week numbers describe the class schedule; assignment numbers retain the instructor's numbering.
 
 ## Get started
 
@@ -22,6 +23,8 @@ Add later work in `week-03/`, `week-04/`, and so on. Week numbers describe the c
 cd "/path/to/research-methods-in-finance"
 do run-week-02.do
 ```
+
+For Week 3, run `do run-week-03.do` instead. See its [README](week-03/README.md) for details.
 
 The runner returns to the repository root when it finishes. Week 2 uses the included data snapshot and requires no additional Stata packages or live downloads. Running it replaces the generated Week 2 data, table and graph; it leaves raw data unchanged.
 

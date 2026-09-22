@@ -1,0 +1,120 @@
+\documentclass[11pt,letterpaper]{article}
+\usepackage[margin=0.85in,top=0.75in,bottom=0.75in,headheight=14pt]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{newtxtext,newtxmath,microtype}
+\usepackage{booktabs,tabularx,amsmath,xcolor}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepackage{listings,fancyhdr,titlesec}
+\usepackage[hidelinks]{hyperref}
+\definecolor{ink}{HTML}{202A35}
+\definecolor{muted}{HTML}{616973}
+\definecolor{rulegray}{HTML}{C5CBD1}
+\definecolor{navy}{HTML}{334E68}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+\linespread{1.04}
+\titleformat{\section}{\normalsize\bfseries\color{ink}}{\thesection}{0.65em}{}
+\titlespacing*{\section}{0pt}{13pt}{5pt}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\footnotesize\color{muted}RESEARCH METHODS IN FINANCE}
+\fancyhead[R]{\footnotesize\color{muted}WEEK 03}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\lstset{basicstyle=\ttfamily\fontsize{8}{10}\selectfont,breaklines=true,columns=fullflexible,keepspaces=true,showstringspaces=false,numbers=left,numberstyle=\tiny\color{muted},numbersep=10pt,xleftmargin=18pt,frame=none,aboveskip=8pt,belowskip=0pt}
+\hypersetup{pdftitle={CAPM Regressions for Operating-Profitability Deciles},pdfauthor={},pdfsubject={Week 3 | Stata Group Assignment 2}}
+\begin{document}
+{\small\color{muted}STATA GROUP ASSIGNMENT 2}\par
+{\fontsize{24}{28}\selectfont\bfseries CAPM and Operating Profitability}\par
+{\small Value-weighted deciles | July 1963--July 2026 | 757 months}
+\vspace{7pt}\hrule height 0.5pt
+
+\section{Data and excess returns}
+We use ten value-weighted operating-profitability (OP) decile portfolios from Kenneth French's Data Library. Decile 1 has the lowest OP and decile 10 the highest. The source files were downloaded on September 15, 2026 (July 2026 CRSP vintage). Monthly market excess returns and risk-free returns come from the Fama/French three-factor file.
+
+For each decile, excess return is $R_{d,t}-R_{f,t}$. We match the portfolios and factors by month, giving 757 observations per decile. Returns are in percent per month. The market variable, \texttt{Mkt-RF}, is already an excess return, so we do not subtract RF again.
+
+\section{CAPM regressions}
+For each decile, we estimate by ordinary least squares:
+\[
+R_{d,t}-R_{f,t}=\alpha_d+\beta_d(R_{m,t}-R_{f,t})+\varepsilon_{d,t}.
+\]
+Alpha is the intercept, in percentage points per month. Beta measures sensitivity to the market excess return. We use the usual OLS standard errors, as reported by Stata's \texttt{regress} command.
+
+{\small\bfseries Table 1. CAPM estimates with conventional OLS standard errors}\par
+\begingroup\small\renewcommand{\arraystretch}{1.3}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrrrrr@{}}
+\toprule
+Decile & $\alpha$ & SE($\alpha$) & $t_\alpha$ & $\beta$ & SE($\beta$) & $t_\beta$ & $R^2$\\
+\midrule
+\csname @@input\endcsname regressions.tex
+\bottomrule
+\end{tabular*}\endgroup\par
+
+\textbf{Discussion.} Betas range from 0.9594 to 1.3030. Decile 1 is the most sensitive to market movements. The market explains about 77.7\%--90.4\% of the variation in monthly portfolio excess returns, so the regressions have substantial explanatory power.
+
+Using conventional standard errors at the two-sided 5\% level, deciles 1 and 3 have significantly negative alphas, while deciles 8 and 9 have significantly positive alphas. These findings suggest that CAPM does not fully explain average returns for every decile.
+
+\newpage
+\section{Heteroskedasticity and serial correlation}
+\textbf{Heteroskedasticity.} After each OLS regression, we run \texttt{estat hettest}, the Breusch--Pagan/Cook--Weisberg test using fitted values. The null is constant error variance. This default test assumes normal errors and uses a $\chi^2(1)$ reference distribution.
+
+\textbf{Serial correlation.} We run \texttt{estat bgodfrey, lags(12)}, the Breusch--Godfrey test. The null is no residual serial correlation at lags 1 through 12 jointly. Twelve monthly lags cover one year. The test uses a $\chi^2(12)$ reference distribution; Stata fills unavailable initial residual lags with zero.
+
+{\small\bfseries Table 2. OLS residual diagnostics}\par
+\begingroup\small\renewcommand{\arraystretch}{1.35}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrr@{}}
+\toprule
+& \multicolumn{2}{c}{Heteroskedasticity (BP)} & \multicolumn{2}{c}{Serial correlation (BG)}\\
+Decile & $\chi^2(1)$ & $p$-value & $\chi^2(12)$ & $p$-value\\
+\midrule
+\csname @@input\endcsname diagnostics.tex
+\bottomrule
+\end{tabular*}\endgroup\par
+
+\textbf{Results at 5\%.} The heteroskedasticity test rejects constant variance for deciles 2, 4 and 10. The serial-correlation test rejects for deciles 1, 2, 7, 8, 9 and 10. Decile 6 is just above the threshold ($p=0.0510$).
+
+The BG test is a conventional diagnostic and is not itself robust to heteroskedasticity. For final inference, we use Newey--West standard errors for every portfolio, regardless of the diagnostic results.
+
+\newpage
+\section{CAPM and hypothesis tests with Newey--West standard errors}
+We run \texttt{newey excess\textit{d} market, lag(12)} for each decile. Newey--West HAC standard errors allow heteroskedasticity and account for serial correlation through 12 monthly lags using Bartlett weights. Coefficients and $R^2$ remain the same as OLS; standard errors and test statistics change.
+
+{\small\bfseries Table 3. CAPM estimates with Newey--West standard errors}\par
+\begingroup\small\renewcommand{\arraystretch}{1.1}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrrrrr@{}}
+\toprule
+Decile & $\alpha$ & SE($\alpha$) & $t_\alpha$ & $\beta$ & SE($\beta$) & $t_\beta$ & $R^2$\\
+\midrule
+\csname @@input\endcsname hac_regressions.tex
+\bottomrule
+\end{tabular*}\endgroup\par
+
+We test $H_0:\beta_d=1$ against $H_1:\beta_d\ne1$ using
+$t=(\widehat\beta_d-1)/\operatorname{SE}_{HAC}(\widehat\beta_d)$ and the $t_{755}$ distribution. At 5\%, a significantly above-one beta is cyclical and a significantly below-one beta is defensive.
+
+{\small\bfseries Table 4. Beta-equals-one tests with Newey--West standard errors}\par
+\begingroup\small\renewcommand{\arraystretch}{1.1}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrl@{}}
+\toprule
+Decile & $t$ ($\beta=1$) & $p$-value & Conclusion at 5\%\\
+\midrule
+\csname @@input\endcsname hac_tests.tex
+\bottomrule
+\end{tabular*}\endgroup\par
+
+\textbf{Final results.} Deciles 1--2 are cyclical; deciles 6 and 9 are defensive. The other betas are not significantly different from one. Compared with conventional OLS tests, deciles 3, 4, 5, 7 and 10 lose significance. The alpha conclusions remain unchanged: deciles 1 and 3 have significantly negative alphas, and deciles 8 and 9 significantly positive alphas. All p-values are unadjusted for multiple testing.
+
+\newpage
+{\small\color{muted}APPENDIX A}\par
+{\Large\bfseries Stata code}\par
+\lstinputlisting[firstline=1,lastline=43]{../assignment2.do}
+\newpage
+{\small\color{muted}APPENDIX A / CONTINUED}\par
+{\Large\bfseries Stata code}\par
+\lstinputlisting[firstline=44,lastline=88,firstnumber=44]{../assignment2.do}
+\newpage
+{\small\color{muted}APPENDIX A / CONTINUED}\par
+{\Large\bfseries Stata code}\par
+\lstinputlisting[firstline=89,firstnumber=89]{../assignment2.do}
+\end{document}
