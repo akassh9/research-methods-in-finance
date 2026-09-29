@@ -79,7 +79,6 @@ p('The model explains about 21.6% of the cross-industry variation in dividend yi
 story.append(PageBreak())
 question(4,'Provide the Stata code in an appendix.')
 p('Appendix: Stata code')
-p('The complete executed do-file follows. Run it from the week-04 folder. The original XLS workbooks must remain in the data subfolder.')
 code=(root/'assignment3.do').read_text().splitlines()
 wrapped=[]
 for line in code:
