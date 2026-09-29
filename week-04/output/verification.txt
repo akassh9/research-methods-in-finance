@@ -1,0 +1,2 @@
+All four model outputs independently verified using NumPy and numerical Student-t integration.
+All 364 joined input values verified against preserved Stata raw exports.

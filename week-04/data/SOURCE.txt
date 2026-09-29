@@ -1,0 +1,10 @@
+Downloaded 2026-09-29; workbook update dates 2026-01-05.
+Source: https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datacurrent.html
+https://pages.stern.nyu.edu/~adamodar/pc/datasets/divfund.xls
+SHA256 cc8f1d666d322faf65236ab9c6513ce3ff6052c52ccba7402c429fde629affc9
+https://pages.stern.nyu.edu/~adamodar/pc/datasets/dbtfund.xls
+SHA256 e6218cf139b1e16aca5d054d7c2bf831a5105a206e2cd457a9079e4302010f68
+https://pages.stern.nyu.edu/~adamodar/pc/datasets/betas.xls
+SHA256 fa5d91af58046937e2db27a764b077dde9d5414df5f69214328f163b940e42a5
+https://pages.stern.nyu.edu/~adamodar/pc/datasets/pedata.xls
+SHA256 e9b839c046a8ff2786d81faedc603cd91d7c6d8b2bad9f895d821e2d6bd1e04f
